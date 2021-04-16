@@ -38,7 +38,20 @@ const gameConfig = {
         jumps: 2,
 
         // % of probability a coin appears on the platform
-        kokisPercent: 25
+        kokisPercent: 25,
+
+        // countdown
+        countdown: 60
+    },
+    potBreaker: {
+        // game canvas width
+        width: 900,
+
+        // game canvas height
+        height: 600,
+
+        // countdown
+        countdown: 60
     }
 };
 

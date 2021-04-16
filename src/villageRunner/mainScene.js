@@ -4,7 +4,11 @@ import gameConfig from '../config/gameConfig';
 export default class mainScene extends Phaser.Scene {
     constructor() {
         super('mainScene');
+        this.score = 0;
+        this.maxScore = 0;
+        this.countdown = gameConfig.villageRunner.countdown;
     }
+
     preload() {
         this.load.image('platform', 'assets/land.png');
 
@@ -111,6 +115,7 @@ export default class mainScene extends Phaser.Scene {
             this.player,
             this.kokisGroup,
             function (player, kokis) {
+                this.score += 10;
                 this.tweens.add({
                     targets: kokis,
                     y: kokis.y - 100,
@@ -128,8 +133,22 @@ export default class mainScene extends Phaser.Scene {
             this
         );
 
+        this.countDownEvent = this.time.delayedCall(this.countdown * 1000, this.onTimerDone, [], this);
+
         // checking for input
         this.input.on('pointerdown', this.jump, this);
+
+        this.distanceText = this.add.text(50, 18, "Distance: 0m", {
+            fontSize: "26px",
+            fill: "#000",
+            fontFamily: "Open Sans",
+        });
+
+        this.countDownText = this.add.text(750, 18, "Time: " + this.countDown + "s", {
+            fontSize: "18px",
+            fill: "#000",
+            fontFamily: "Open Sans",
+        });
     }
 
     // the core of the script: platform are added from the pool or created on the fly
@@ -188,8 +207,14 @@ export default class mainScene extends Phaser.Scene {
         }
     }
     update() {
-        // game over
+        this.score ++;
+        this.distanceText.setText("Distance: " + this.score + "m");
+
+        // respawn
         if (this.player.y > gameConfig.villageRunner.height) {
+            this.maxScore = this.score > this.maxScore ? this.score : this.maxScore;
+            this.score = 0;
+            this.countdown = this.countdownRemains;
             this.scene.start('mainScene');
         }
 
@@ -231,5 +256,15 @@ export default class mainScene extends Phaser.Scene {
             let nextPlatformHeight = Phaser.Math.Clamp(nextPlatformGap, minPlatformHeight, maxPlatformHeight);
             this.addPlatform(nextPlatformWidth, gameConfig.villageRunner.width + nextPlatformWidth / 2, nextPlatformHeight);
         }
+
+        this.countdownRemains = Math.round(this.countdown - this.countDownEvent.getElapsedSeconds());
+
+        this.countDownText.setText("Time: " + this.countdownRemains);
+    }
+
+    onTimerDone() {
+        this.maxScore = this.score > this.maxScore ? this.score : this.maxScore;
+        console.log(this.maxScore);
+        this.scene.start('gameOver', { maxScore: this.maxScore });
     }
 }

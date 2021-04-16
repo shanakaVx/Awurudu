@@ -1,6 +1,7 @@
 import Phaser from 'phaser/dist/phaser-arcade-physics';
 import startScene from './startScene';
 import mainScene from './mainScene';
+import gameOver from './gameOver';
 import gameConfig from '../config/gameConfig';
 
 console.log('%cOh! Hello there!!', 'font-size: 20px');
@@ -19,7 +20,7 @@ const config = {
     physics: {
         default: "arcade"
     },
-    scene: [startScene, mainScene]
+    scene: [startScene, mainScene, gameOver]
 };
 
 export function startVillageRunner() {
