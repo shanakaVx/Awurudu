@@ -1,6 +1,7 @@
 import { startGrasePole } from './greasePoleClimber/greasePoleClimber';
 import { startVillageRunner } from './villageRunner/villageRunner';
 import { startPotBreaker } from './potBreaker/potBreaker';
+import { startMarkEye } from './markEye/markEye';
 
 document.getElementById("greasePoleClimber").onclick = function(){
     startGrasePole();
@@ -14,6 +15,11 @@ document.getElementById("villageRunner").onclick = function(){
 
 document.getElementById("potBreaker").onclick = function(){
     startPotBreaker();
+    hideButtons();
+}
+
+document.getElementById("markEye").onclick = function(){
+    startMarkEye()
     hideButtons();
 }
 

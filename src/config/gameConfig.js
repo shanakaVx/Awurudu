@@ -52,6 +52,19 @@ const gameConfig = {
 
         // countdown
         countdown: 60
+    },
+    markEye: {
+        // game canvas width
+        width: 900,
+
+        // game canvas height
+        height: 600,
+
+        // Count down to start the game
+        startCountDown: 6,
+
+        // countdown to end
+        countdown: 10
     }
 };
 
